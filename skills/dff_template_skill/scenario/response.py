@@ -32,7 +32,7 @@ def ontology_info_response(ctx: Context, actor: Actor) -> str:
         reply = ""
         # Temporary case-sensitive
         # utt = state_utils.get_last_human_utterance(vars)["text"].lower()
-        utt = int_ctx.get_last_human_utterance(ctx, actor).get("text", "").lower()
+        utt = int_ctx.get_last_human_utterance(ctx, actor).get("text", "")
         logger.error(f"ontology_utt {utt}")
         # TODO: Search node in Ontology
 
@@ -68,7 +68,7 @@ def ontology_detailed_info_response(ctx: Context, actor: Actor) -> str:
         reply = ""
         # Temporary case-sensitive
         # utt = state_utils.get_last_human_utterance(vars)["text"].lower()
-        utt = int_ctx.get_last_human_utterance(ctx, actor).get("text", "").lower()
+        utt = int_ctx.get_last_human_utterance(ctx, actor).get("text", "")
         logger.error(f"ontology_utt {utt}")
         # TODO: Search node in Ontology
 

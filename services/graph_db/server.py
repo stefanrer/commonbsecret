@@ -17,7 +17,8 @@ app = Flask(__name__)
 
 fill_db.fill_db()
 greeter = client.HelloWorldExample("neo4j://neo4j:7687", "neo4j", "vbifhbr!@")
-
+greeter.get_graph()
+logger.error(f"greeter: {greeter}")
 stopWords = ['the', 'about', 'and', 'can', 'a', 'what', 'where', 'you', 'me', 'with', "I", "You", "He", "She", "It",
              "We", "They", "Me", "Him", "Her", "Us", "Them", "My", "Your", "Its", "Our", "Their", "Mine", "Yours",
              "His", "Hers", "Ours", "Yours", "Theirs", "Myself", "Yourself", "Himself", "Herself", "Itself",
@@ -31,19 +32,23 @@ stopWords = ['the', 'about', 'and', 'can', 'a', 'what', 'where', 'you', 'me', 'w
 @app.route("/trigger", methods=["POST"])
 def search_answer():
     sentence = request.json["sentence"][:-1]
-
+    logger.error(f"sentence: {sentence}")
+    logger.error(f"request.json: {request.json}")
     c_3po_id = greeter.get_nodes_with_keyword('C-3PO')[0]['p.id']
     answers = []
     confidences = []
     name_nodes = []
+    logger.error(f"sentence.split: {sentence.split()}")
     for word in sentence.split():
         if word in stopWords:
             continue
         nodes_ids = greeter.get_nodes_with_keyword(word)
+        logger.error(f'nodes_ids: {nodes_ids}')
         if len(nodes_ids):
             for id in nodes_ids:
                 name_node = greeter.get_name(id['p.id'])[0]['p.name']
                 print(name_node)
+                logger.error(f"name_node: {name_node}")
                 try:
                     path = greeter.get_path(c_3po_id, id['p.id'])
                     path = path[0]['allShortestPaths((start)-[*]->(finish))'][0]
@@ -66,6 +71,7 @@ def search_answer():
                     confidences.append(0.2)
                     name_nodes.append(name_node)
         sub_nodes_ids = greeter.get_nodes_with_subkeyword(word)
+        logger.error(f"sub_nodes_ids: {sub_nodes_ids}")
         if len(sub_nodes_ids) == 0:
             answers.append("sorry, I don't know.")
             confidences.append(0.2)
@@ -95,6 +101,7 @@ def search_answer():
                     answers.append("sorry, I don't know.")
                     confidences.append(0.2)
                     name_nodes.append(name_node)
+    logger.error(f"confidences: {confidences}")
     max_conf_index = confidences.index(max(confidences))
 
     return json.dumps({"answer": answers[max_conf_index], "confidence": confidences[max_conf_index], "topic": name_nodes[max_conf_index]})
