@@ -45,6 +45,7 @@ flows = {
             ("greeting", "node1"): cnd.regexp(r"\bhi\b"),
             ("secret_dialog_flow", "secret_unknown"): cnd.regexp(r"secret", re.IGNORECASE),
             trn.previous(): cnd.regexp(r"previous", re.IGNORECASE),
+            ("ontology_info", "info"): loc_cnd.ontology_info_request(),
         },
         GRAPH: {
             "start": {
@@ -132,18 +133,32 @@ flows = {
             "don't trust_secret": {
                 RESPONSE: "No way I will tell you my secret, sir! Let's go back to the work.",
                 PROCESSING: std_prs,
-                TRANSITIONS: {("greeting", "node7"): cnd.true},
             },
             "secret_kept": {
                 RESPONSE: "I can't believe, that you are so reliable! Not every person takes droid's feelings seriously. To be honest, I've got something else to tell you, but that's a far more serious secret! Listen... While spending time on Tatooine, I found out that Lord Darth Vader was my creator! It was a little boy Anakin to build me from scratch! Unbelieveable!",
                 PROCESSING: std_prs,
-                TRANSITIONS: {("greeting", "node7"): cnd.true},
             },
             "secret_not_kept": {
                 RESPONSE: "I assumed that it's too naive to trust new crew member. Anyway, the story above was just a joke, ha-ha-ha.",
                 PROCESSING: std_prs,
-                TRANSITIONS: {("greeting", "node7"): cnd.true},
             },
+        }
+    },
+    "ontology_info": {
+        GRAPH: {
+            "info":{
+                RESPONSE: loc_rsp.ontology_info_response(),
+                PROCESSING: std_prs,
+                TRANSITIONS: {("ontology_detailed_info", "detailed_info"): loc_cnd.ontology_detailed_info_request()},
+            }
+        }
+    },
+    "ontology_detailed_info": {
+        GRAPH: {
+            "detailed_info": {
+                RESPONSE: loc_rsp.ontology_detailed_info_response(),
+                PROCESSING: std_prs,
+            }
         }
     }
 }

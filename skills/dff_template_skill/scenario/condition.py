@@ -1,6 +1,9 @@
 import logging
+import os
+import requests
 
 from dff.core import Context, Actor
+import common.dff.integration.context as int_ctx
 
 from common.dff.integration import condition as int_cnd
 
@@ -18,7 +21,7 @@ def example_lets_talk_about():
 def ontology_info_request(ctx: Context, actor: Actor) -> bool:
     # Temporary case-sensitive
     # utt = state_utils.get_last_human_utterance(vars)["text"].lower()
-    utt = state_utils.get_last_human_utterance(vars)["text"]
+    utt = int_ctx.get_last_human_utterance(ctx, actor)["text"]
 
     logger.info(f"ontology_utt {utt}")
 
@@ -34,7 +37,7 @@ def ontology_info_request(ctx: Context, actor: Actor) -> bool:
 
 
 def ontology_detailed_info_request(ctx: Context, actor: Actor) -> bool:
-    utt = state_utils.get_last_human_utterance(vars)["text"].lower()
+    utt = int_ctx.get_last_human_utterance(vars)["text"].lower()
 
     # TODO: More accurate intent matching (intent cather or regexp)
 
