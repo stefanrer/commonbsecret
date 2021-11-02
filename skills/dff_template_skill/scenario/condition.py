@@ -37,7 +37,7 @@ def ontology_info_request(ctx: Context, actor: Actor) -> bool:
 
 
 def ontology_detailed_info_request(ctx: Context, actor: Actor) -> bool:
-    utt = int_ctx.get_last_human_utterance(vars)["text"].lower()
+    utt = int_ctx.get_last_human_utterance(ctx, actor)["text"].lower()
 
     # TODO: More accurate intent matching (intent cather or regexp)
 

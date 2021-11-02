@@ -60,7 +60,7 @@ def ontology_info_response(ctx: Context, actor: Actor) -> str:
         return error_response(ctx, actor)
 
 
-def ontology_detailed_info_response(ctx, actor) -> str:
+def ontology_detailed_info_response(ctx: Context, actor: Actor) -> str:
     try:
         # Temporary case-sensitive
         # utt = state_utils.get_last_human_utterance(vars)["text"].lower()
