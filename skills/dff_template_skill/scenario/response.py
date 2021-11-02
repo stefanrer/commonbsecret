@@ -29,43 +29,46 @@ def error_response(ctx: Context, actor: Actor, *args, **kwargs) -> str:
 
 def ontology_info_response(ctx: Context, actor: Actor) -> str:
     try:
+        reply = ""
         # Temporary case-sensitive
         # utt = state_utils.get_last_human_utterance(vars)["text"].lower()
-        utt = int_ctx.get_last_human_utterance(ctx, actor)["text"]
+        utt = int_ctx.get_last_human_utterance(ctx, actor).get("text", "").lower()
 
         # TODO: Search node in Ontology
 
         response = requests.post(os.environ["GRAPH_DB_URL"] + "/trigger", json={"sentence": utt})
-        topic = response.json()["topic"]
-        response = response.json()["answer"]
+        js = response.json()
+        if "topic" in js.keys() and "answer" in js.keys():
+            topic = js["topic"]
+            reply = js["answer"]
 
-        # response = "Yes, it is my favourite actor!"
-        # state_utils.set_confidence(vars, confidence=CONF_HIGH)
-        # state_utils.set_can_continue(vars, continue_flag=CAN_NOT_CONTINUE)
-        int_ctx.set_confidence(ctx, actor, confidence=CONF_HIGH)
-        int_ctx.set_can_continue(ctx, actor, continue_flag=common_constants.CAN_NOT_CONTINUE)
+            # response = "Yes, it is my favourite actor!"
+            # state_utils.set_confidence(vars, confidence=CONF_HIGH)
+            # state_utils.set_can_continue(vars, continue_flag=CAN_NOT_CONTINUE)
+            int_ctx.set_confidence(ctx, actor, confidence=CONF_HIGH)
+            int_ctx.set_can_continue(ctx, actor, continue_flag=common_constants.CAN_NOT_CONTINUE)
 
-        # shared_memory = state_utils.get_shared_memory(vars)
-        shared_memory = int_ctx.get_shared_memory(ctx, actor)
-        used_topics = shared_memory.get("used_topics", [])
-        # state_utils.save_to_shared_memory(vars, used_topics=used_topics + [topic])
-        int_ctx.save_to_shared_memory(ctx, actor, used_topics=used_topics + [topic])
+            # shared_memory = state_utils.get_shared_memory(vars)
+            shared_memory = int_ctx.get_shared_memory(ctx, actor)
+            used_topics = shared_memory.get("used_topics", [])
+            # state_utils.save_to_shared_memory(vars, used_topics=used_topics + [topic])
+            int_ctx.save_to_shared_memory(ctx, actor, used_topics=used_topics + [topic])
 
-        return response
+        return reply
     except Exception as exc:
         logger.info("WTF in ontology_info_response")
         logger.exception(exc)
         int_ctx.set_confidence(ctx, actor, 0)
 
-        return error_response
+        return "Sorry"
 
 
 def ontology_detailed_info_response(ctx: Context, actor: Actor) -> str:
     try:
+        reply = ""
         # Temporary case-sensitive
         # utt = state_utils.get_last_human_utterance(vars)["text"].lower()
-        utt = int_ctx.get_last_human_utterance(ctx, actor)["text"]
-
+        utt = int_ctx.get_last_human_utterance(ctx, actor).get("text", "").lower()
         # TODO: Search node in Ontology
 
         # state_utils.set_confidence(vars, confidence=CONF_HIGH)
@@ -76,16 +79,17 @@ def ontology_detailed_info_response(ctx: Context, actor: Actor) -> str:
         # shared_memory = state_utils.get_shared_memory(vars)
         shared_memory = int_ctx.get_shared_memory(ctx, actor)
         used_topics = shared_memory.get("used_topics", [])
+        if len(used_topics) != 0:
+            topic = used_topics[-1].replace('_', ' ')
+            response = requests.post(os.environ["GRAPH_DB_URL"] + "/detailed_trigger", json={"sentence": topic})
+            js = response.json()
+            if "answer" in js.keys():
+                reply = js["answer"]
 
-        topic = used_topics[-1].replace('_', ' ')
-
-        response = requests.post(os.environ["GRAPH_DB_URL"] + "/detailed_trigger", json={"sentence": topic})
-        response = response.json()["answer"]
-
-        return response
+        return reply
     except Exception as exc:
         logger.info("WTF in ontology_detailed_info_response")
         logger.exception(exc)
         int_ctx.set_confidence(ctx, actor, 0)
 
-        return error_response
+        return "Sorry"

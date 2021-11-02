@@ -146,7 +146,7 @@ flows = {
     },
     "ontology_info": {
         GRAPH: {
-            "info":{
+            "info": {
                 RESPONSE: loc_rsp.ontology_info_response,
                 PROCESSING: std_prs,
                 TRANSITIONS: {("ontology_detailed_info", "detailed_info"): loc_cnd.ontology_detailed_info_request},
