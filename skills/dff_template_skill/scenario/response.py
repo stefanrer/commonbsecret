@@ -57,7 +57,7 @@ def ontology_info_response(ctx: Context, actor: Actor) -> str:
         logger.exception(exc)
         int_ctx.set_confidence(ctx, actor, 0)
 
-        return error_response()
+        return error_response
 
 
 def ontology_detailed_info_response(ctx: Context, actor: Actor) -> str:
@@ -88,4 +88,4 @@ def ontology_detailed_info_response(ctx: Context, actor: Actor) -> str:
         logger.exception(exc)
         int_ctx.set_confidence(ctx, actor, 0)
 
-        return error_response()
+        return error_response

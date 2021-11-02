@@ -2,7 +2,7 @@ import logging
 import re
 
 from dff.core.keywords import PROCESSING, TRANSITIONS, GRAPH, RESPONSE, GLOBAL_TRANSITIONS
-from dff.core import Actor
+from dff.core import Context, Actor
 import dff.conditions as cnd
 import dff.transitions as trn
 
@@ -45,7 +45,7 @@ flows = {
             ("greeting", "node1"): cnd.regexp(r"\bhi\b"),
             ("secret_dialog_flow", "secret_unknown"): cnd.regexp(r"secret", re.IGNORECASE),
             trn.previous(): cnd.regexp(r"previous", re.IGNORECASE),
-            ("ontology_info", "info"): loc_cnd.ontology_info_request(),
+            ("ontology_info", "info"): loc_cnd.ontology_info_request,
         },
         GRAPH: {
             "start": {
@@ -147,16 +147,16 @@ flows = {
     "ontology_info": {
         GRAPH: {
             "info":{
-                RESPONSE: loc_rsp.ontology_info_response(),
+                RESPONSE: loc_rsp.ontology_info_response,
                 PROCESSING: std_prs,
-                TRANSITIONS: {("ontology_detailed_info", "detailed_info"): loc_cnd.ontology_detailed_info_request()},
+                TRANSITIONS: {("ontology_detailed_info", "detailed_info"): loc_cnd.ontology_detailed_info_request},
             }
         }
     },
     "ontology_detailed_info": {
         GRAPH: {
             "detailed_info": {
-                RESPONSE: loc_rsp.ontology_detailed_info_response(),
+                RESPONSE: loc_rsp.ontology_detailed_info_response,
                 PROCESSING: std_prs,
             }
         }
