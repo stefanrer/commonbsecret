@@ -28,7 +28,6 @@ stopWords = ['the', 'about', 'and', 'can', 'a', 'what', 'where', 'you', 'me', 'w
              "Is", "Are", "is", "are", "Do", "do", "Does", "does", "who", "Who", "am", "Am", "Should", "should"]
 
 
-
 @app.route("/trigger", methods=["POST"])
 def search_answer():
     sentence = request.json["sentence"][:-1]
@@ -104,12 +103,13 @@ def search_answer():
     logger.error(f"confidences: {confidences}")
     max_conf_index = confidences.index(max(confidences))
 
-    return json.dumps({"answer": answers[max_conf_index], "confidence": confidences[max_conf_index], "topic": name_nodes[max_conf_index]})
+    return json.dumps({"answer": answers[max_conf_index], "confidence": confidences[max_conf_index],
+                       "topic": name_nodes[max_conf_index]})
+
 
 @app.route("/can_trigger", methods=["POST"])
 def bool_search_answer():
     sentence = request.json["sentence"]
-
     sentence = sentence[:-1]
 
     for word in sentence.split():
@@ -129,12 +129,16 @@ def bool_search_answer():
 
 @app.route("/detailed_trigger", methods=["POST"])
 def second_answer():
+    logger.error("detailed trigger")
     sentence = request.json["sentence"][:-1]
+    logger.error(f"sentence[:-1]: {sentence}")
+    logger.error(f"request.json: {request.json}")
 
     for word in sentence.split():
         if word in stopWords:
             continue
         nodes_ids = greeter.get_prop_with_subkeyword(word)
+        logger.error(f"nodes_ids: {nodes_ids}")
         if len(nodes_ids):
             for id in nodes_ids:
                 try:
@@ -153,6 +157,7 @@ def second_answer():
                     answer = answer[:-2] + '.'
                     return json.dumps({"answer": answer, "confidence": 0.9})
                 except:
+                    logger.error("except")
                     answer = 'Sorry, I dont know'
                     confidence = 0.1
                     return json.dumps({"answer": answer, "confidence": confidence})
@@ -175,10 +180,6 @@ def respond():
             sentence = dialog['human_utterances'][-1]['text']
 
 
-
-
-
 if __name__ == '__main__':
-    #search_answer("What are you think about Hoth?")
+    # search_answer("What are you think about Hoth?")
     app.run(debug=False, host="0.0.0.0", port=3055)
-
