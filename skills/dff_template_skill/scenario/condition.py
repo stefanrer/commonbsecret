@@ -23,7 +23,7 @@ def ontology_info_request(ctx: Context, actor: Actor) -> bool:
     # utt = state_utils.get_last_human_utterance(vars)["text"].lower()
     utt = int_ctx.get_last_human_utterance(ctx, actor).get("text", "")
 
-    logger.info(f"ontology_utt {utt}")
+    logger.error(f"ontology_utt {utt}")
 
     response = requests.post(os.environ["GRAPH_DB_URL"] + "/can_trigger", json={"sentence": utt})
 
@@ -38,7 +38,7 @@ def ontology_info_request(ctx: Context, actor: Actor) -> bool:
 
 def ontology_detailed_info_request(ctx: Context, actor: Actor) -> bool:
     utt = int_ctx.get_last_human_utterance(ctx, actor).get("text", "")
-
+    logger.error(f"ontology_utt {utt}")
     # TODO: More accurate intent matching (intent cather or regexp)
 
     # TODO: Search node in Ontology

@@ -33,7 +33,7 @@ def ontology_info_response(ctx: Context, actor: Actor) -> str:
         # Temporary case-sensitive
         # utt = state_utils.get_last_human_utterance(vars)["text"].lower()
         utt = int_ctx.get_last_human_utterance(ctx, actor).get("text", "").lower()
-
+        logger.error(f"ontology_utt {utt}")
         # TODO: Search node in Ontology
 
         response = requests.post(os.environ["GRAPH_DB_URL"] + "/trigger", json={"sentence": utt})
@@ -69,6 +69,7 @@ def ontology_detailed_info_response(ctx: Context, actor: Actor) -> str:
         # Temporary case-sensitive
         # utt = state_utils.get_last_human_utterance(vars)["text"].lower()
         utt = int_ctx.get_last_human_utterance(ctx, actor).get("text", "").lower()
+        logger.error(f"ontology_utt {utt}")
         # TODO: Search node in Ontology
 
         # state_utils.set_confidence(vars, confidence=CONF_HIGH)
