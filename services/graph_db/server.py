@@ -66,6 +66,7 @@ def search_answer():
                     confidences.append(0.9)
                     name_nodes.append(name_node)
                 except:
+                    logger.error("except1")
                     answers.append("sorry, I don't know.")
                     confidences.append(0.2)
                     name_nodes.append(name_node)
@@ -97,6 +98,7 @@ def search_answer():
                     confidences.append(0.6)
                     name_nodes.append(name_node)
                 except:
+                    logger.error("except2")
                     answers.append("sorry, I don't know.")
                     confidences.append(0.2)
                     name_nodes.append(name_node)
@@ -144,17 +146,22 @@ def second_answer():
                 try:
                     get_inform = False
                     answer = id['p']['name'] + ', '
+                    logger.error(f"answer: {answer}")
                     node_prop = id['p']
+                    logger.error(f"node_prop: {node_prop}")
+                    logger.error(f"node_prop.keys: {node_prop.keys}")
                     for key in node_prop.keys():
                         if key != 'name' and key != 'id':
                             get_inform = True
                             inf = node_prop[key]
                             answer += key + ' ' + inf + ', '
                     if not get_inform:
+                        logger.error("not get_inform")
                         answer = 'Sorry, I dont know'
                         confidence = 0.1
                         return json.dumps({"answer": answer, "confidence": confidence})
                     answer = answer[:-2] + '.'
+                    logger.error(f"answer: {answer}")
                     return json.dumps({"answer": answer, "confidence": 0.9})
                 except:
                     logger.error("except")
