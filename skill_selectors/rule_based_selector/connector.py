@@ -266,6 +266,9 @@ class RuleBasedSkillSelectorConnector:
             if "/alexa_" in user_uttr_text:
                 skills_for_uttr = ["alexa_handler"]
 
+            skills_for_uttr.clear()
+            skills_for_uttr.append("dff_template_skill")
+
             logger.info(f"Selected skills: {skills_for_uttr}")
 
             total_time = time.time() - st_time
