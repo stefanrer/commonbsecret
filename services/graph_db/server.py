@@ -15,7 +15,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
-fill_db.fill_db()
+# fill_db.fill_db()
 greeter = client.HelloWorldExample("neo4j://neo4j:7687", "neo4j", "vbifhbr!@")
 greeter.get_graph()
 logger.error(f"greeter: {greeter}")
