@@ -9,6 +9,8 @@ services:
       - ~/neo4j/data:/data
     environment:
       NEO4J_AUTH: none
+      NEO4J_dbms_connector_http_advertised__address: "localhost:7474"
+      NEO4J_dbms_connector_bolt_advertised__address: "localhost:7687"
   client:
     build:
       context: .
