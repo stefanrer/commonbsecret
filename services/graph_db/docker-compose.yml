@@ -3,10 +3,10 @@ services:
   neo4j:
     image: neo4j:4.2.5
     ports:
-      - 8474:7474
-      - 8687:7687
-#    volumes:
-#      - ~/neo4j/data:/data
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - ~/neo4j/data:/data
     environment:
       NEO4J_AUTH: none
   client:
