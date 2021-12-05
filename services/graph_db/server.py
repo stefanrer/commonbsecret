@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 # fill_db.fill_db()
-greeter = HelloWorldExample("neo4j://neo4j:7687", "neo4j", "vbifhbr!@")
+greeter = HelloWorldExample("neo4j://localhost:7687", "neo4j", "vbifhbr!@")
 # greeter.get_graph()
 stopWords = ['the', 'about', 'and', 'can', 'a', 'what', 'where', 'you', 'me', 'with', "I", "You", "He", "She", "It",
              "We", "They", "Me", "Him", "Her", "Us", "Them", "My", "Your", "Its", "Our", "Their", "Mine", "Yours",
