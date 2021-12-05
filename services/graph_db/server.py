@@ -103,6 +103,7 @@ def search_answer():
                     name_nodes.append(name_node)
     logger.error(f"confidences: {confidences}")
     max_conf_index = confidences.index(max(confidences))
+    logger.error(f"max_conf_index: {max_conf_index}")
 
     return json.dumps({"answer": answers[max_conf_index], "confidence": confidences[max_conf_index],
                        "topic": name_nodes[max_conf_index]})
