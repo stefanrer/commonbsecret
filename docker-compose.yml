@@ -71,6 +71,7 @@ services:
       - 7473:7473
     volumes:
        - ~/neo4j/data:/data
+       - ~/neo4j/import:/import
     environment:
       # HOW TO CREATE ENV PARAMS FOR NEO4J:
         # "NEO4J_" AS PREFIX #SEPARATOR AS "_" # _ AS "__"
