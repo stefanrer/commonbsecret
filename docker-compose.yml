@@ -74,7 +74,7 @@ services:
        - ~/neo4j/import:/import
     environment:
       # HOW TO CREATE ENV PARAMS FOR NEO4J:
-        # "NEO4J_" AS PREFIX #SEPARATOR AS "_" # _ AS "__"
+        # "NEO4J_" AS PREFIX #SEPARATOR(aka ".") AS "_" # _ AS "__"
       NEO4J_AUTH: none
       NEO4J_dbms_connector_bolt_listen__address: "0.0.0.0:7687"
       NEO4J_dbms_connector_https_listen__address: "0.0.0.0:7473"
@@ -86,7 +86,7 @@ services:
       # it is possible to specify advertised_address for each connector individually
       NEO4J_dbms_memory_heap_initial__size: 30G
       NEO4J_dbms_memory_heap_max__size: 30G
-      NEO4J_dbms_memory_pagecache__size: 4G
+      NEO4J_dbms_memory_pagecache_size: 4G
       # Adjust configuration for the database on heap and memory to avoid page-faults.
       # To help handle larger volumes of transactions, you can increase some configuration settings
       # for the database and restart the instance for them to take effect.
