@@ -84,9 +84,9 @@ services:
       NEO4J_dbms_connector_http_advertised__address: "localhost:7474"
       # If routing traffic via a proxy, or if port mappings are in use,
       # it is possible to specify advertised_address for each connector individually
-      NEO4J_dbms_memory_heap_initial_size: 4G
+      #NEO4J_dbms_memory_heap_initial_size: 4G # Legacy
       NEO4J_dbms_memory_heap_max_size: 30G
-      NEO4J_dbms_memory_pagecache_size: 4G
+      #NEO4J_dbms_memory_pagecache_size: 4G # Legacy
       # Adjust configuration for the database on heap and memory to avoid page-faults.
       # To help handle larger volumes of transactions, you can increase some configuration settings
       # for the database and restart the instance for them to take effect.
